@@ -1,4 +1,12 @@
+html, body, .content, #main-content { 
+	height:100%; 
+	width:100%;
+}
+
+.row{
+}
+
 #map{
-	background-color: blue;
-	height: 50px;
+	height:100%; 
+	width:100%;
 }

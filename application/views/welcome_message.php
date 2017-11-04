@@ -22,17 +22,15 @@ $this->load->helper('url');
         <!-- Lokasi HTML untuk map dari Google  -->
 		<!-- Javascript dari Google Maps bisa dilihat di /public/js/google-map.js -->
 	    <div class="row" id="main-content">
-	        <div class="col-md-12">
 	            <div id="map">
 	            </div>
-	        </div>
 	    </div>
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
      <!-- Sesuaikan MAPS_API_KEY dengan key yang didapatkan -->
-    <script src="http://maps.googleapis.com/maps/api/js?key="></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC3iE--BXcBVpLi6MXVS6u4sYQl8D8kAY4"></script>
 
     <!-- File site-ui.js hanya berisi javascript untuk proses pada UI  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ui.js');?>"></script> 
