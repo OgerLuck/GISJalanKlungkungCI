@@ -7,6 +7,7 @@ function initialize() {
         zoomControl:false,
         streetViewControl: false,
         mapTypeControl: false,
+        fullscreenControl: false,
         disableDoubleClickZoom: true,
         scrollwheel: false,
         panControl: true,
