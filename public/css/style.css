@@ -1,13 +1,32 @@
 html, body, .content, #main-content { 
 	height:100%; 
 	width:100%;
+	overflow-x: hidden;
 }
+/* ======= Scroll Bar ======== */
+::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+::-webkit-scrollbar{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb{
+	background-color: #2979FF;
+	border: 1px solid #448AFF;
+}
+/* ======= Scroll Bar ======== */
+
 .content{
 	position: relative;
 }
 #map{
 	height:100%; 
 	width:100%;
+}
+.form-row{
+	margin-bottom: 10px !important;
 }
 /* ============================== Tab sebelah kiri =============== */
 .left-bar{
@@ -19,6 +38,7 @@ html, body, .content, #main-content {
 	z-index: 1;
 	background-color: #ffffff;
 	box-shadow: 10px 10px 30px grey;
+	overflow: auto;
 }
 
 .left-bar-title{
@@ -34,12 +54,13 @@ html, body, .content, #main-content {
 
 .form-container{
 	margin: 70px 30px;
+	/* padding-bottom: 50px; */
 }
 
 #btn-save-road-info{
-	width: 100%;
+	width: inherit;
 	height: 50px !important;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	border: none !important;
 	border-radius: 0px !important;
@@ -58,15 +79,19 @@ html, body, .content, #main-content {
 
 #right-bar-btn-add{
 	border-radius: 500px !important;
+	transition: width .5s;
+	
 }
 /* ============================== Tab sebelah kanan =============== */
 
 .btn-bar{
 	text-align: center;
 	height: 50px;
+	width: 50px;
 	min-width: 50px;
 	position: absolute;
 	right: 0;
+	opacity: 1;
 }
 
 
@@ -77,4 +102,9 @@ html, body, .content, #main-content {
 }
 .slide-enter, .slide-leave-to {
 	left: -20%;
-}/* ====================================== ANIMATION =========================== */
+}
+
+#right-bar-btn-add:hover {
+	width: 180px;
+}
+/* ====================================== ANIMATION =========================== */

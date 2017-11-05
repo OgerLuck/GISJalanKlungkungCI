@@ -29,7 +29,7 @@ $this->load->helper('url');
         <!-- Tab sebelah kiri untuk view, insert, update dan delete data informasi jalan -->
         <transition name="slide">
             <div v-if="show_left_bar" class="left-bar">
-                <h3 class="left-bar-title">Informasi Jalan</h3>
+                <h3 class="left-bar-title">Tambah Informasi Jalan</h3>
                 <button v-on:click="show_left_bar = !show_left_bar" class="btn btn-default btn-bar" id="left-bar-btn-close"><i class="fa fa-times"></i></button>
                 <div class="form-container">
                     <label for="">Identitas Jalan</label>
@@ -41,28 +41,19 @@ $this->load->helper('url');
                     </div>
                     <hr>
                     <label for="">Riwayat Perbaikan</label>
-                    <a class="pull-right"><i class="fa fa-plus"></i></a>
+                    <a v-on:click="btn_add_form_riwayat_perbaikan_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
+                    <!-- Form riwayat perbaikan jalan, dengan template component Vue -->
                     <div class="form-group">
-                        <input class="form-control" type="number" placeholder="Tahun Perbaikan">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" type="number" placeholder="Nama Kontraktor">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" type="text" placeholder="Catatan"></textarea>
+                        <form-riwayat-perbaikan-jalan></form-riwayat-perbaikan-jalan>
+                        <form-riwayat-perbaikan-jalan v-for="n in add_form_riwayat_perbaikan_jalan"></form-riwayat-perbaikan-jalan>
                     </div>
                     <hr>
                     <label for="">Koordinat Jalan</label>
-                    <a class="pull-right"><i class="fa fa-plus"></i></a>
+                    <a v-on:click="btn_add_form_koordinat_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
+                    <!-- Form koordinat jalan, dengan template component Vue -->
                     <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <input class="form-control" type="number" placeholder="Koordinat X">
-                                </div>
-                                <div class="col-lg-6">
-                                    <input class="form-control" type="number" placeholder="Koordinat Y">
-                                </div>
-                            </div>
+                        <form-koordinat-jalan></form-koordinat-jalan>
+                        <form-koordinat-jalan v-for="n in add_form_koordinat_jalan"></form-koordinat-jalan>
                     </div>
                 </div>
                 <button class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
@@ -71,14 +62,8 @@ $this->load->helper('url');
         
         <!-- Tab sebelah kanan untuk tombol tambah yang akan membuka tab kiri -->
         <div class="right-bar">
-            <transition name="widening">
-                <div v-on:mouseover="show_btn_add_label =!show_btn_add_label" v-on:mouseleave="show_btn_add_label =!show_btn_add_label">
-                    <button v-if="!show_btn_add_label" v-on:click="show_left_bar = !show_left_bar" class="btn btn-primary btn-bar" id="right-bar-btn-add"><i class="fa fa-plus"></i></button>
-                    <button v-else v-on:click="show_left_bar = !show_left_bar" class="btn btn-primary btn-bar" id="right-bar-btn-add"><i class="fa fa-plus"></i> Tambah Ruas Jalan</button>
-                </div>
-            </transition>
+            <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="show_left_bar = !show_left_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
         </div>
-
     </div>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -95,5 +80,33 @@ $this->load->helper('url');
     <!-- File google-map.js hanya berisi javascript untuk map dari Google  -->
     <script type="text/javascript" src="<?php echo base_url('js/google-map.js');?>"></script>
 
+    <!-- Template untuk form koordinat jalan -->
+    <script type="x-template" id="form-koordinat-jalan">
+        <div class="row form-row">
+            <div class="col-lg-6">
+                <input class="form-control" type="number" placeholder="Koordinat X">
+            </div>
+            <div class="col-lg-6">
+                <input class="form-control" type="number" placeholder="Koordinat Y">
+            </div>
+        </div>
+    </script>
+
+    <!-- Template untuk form riwayat perbaikan jalan -->
+    <script type="x-template" id="form-riwayat-perbaikan-jalan">
+        <div class="row form-row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <input class="form-control" type="number" placeholder="Tahun Perbaikan">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" placeholder="Nama Kontraktor">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" type="text" placeholder="Catatan"></textarea>
+                </div>
+            </div>
+        </div>
+    </script>
 </body>
 </html>
