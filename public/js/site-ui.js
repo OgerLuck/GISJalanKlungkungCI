@@ -30,6 +30,18 @@ var app = new Vue({
         },
         btn_add_form_riwayat_perbaikan_jalan: function(){
             this.add_form_riwayat_perbaikan_jalan += 1;
+        },
+        save_road_info: function(){
+            axios.post('p/tambah_informasi_jalan', {
+                firstName: 'Fred',
+                lastName: 'Flintstone'
+            })
+            .then(function (response) {
+                console.log(response);
+              })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     }
 });

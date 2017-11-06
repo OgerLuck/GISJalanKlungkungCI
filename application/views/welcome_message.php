@@ -56,7 +56,7 @@ $this->load->helper('url');
                         <form-koordinat-jalan v-for="n in add_form_koordinat_jalan"></form-koordinat-jalan>
                     </div>
                 </div>
-                <button class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
+                <button v-on:click="save_road_info" class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
             </div>
         </transition>
         
@@ -72,6 +72,8 @@ $this->load->helper('url');
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC3iE--BXcBVpLi6MXVS6u4sYQl8D8kAY4"></script>
     <!-- Vue JS -->
     <script src="https://unpkg.com/vue"></script>
+    <!-- Axios untuk proses XMLHttpRequest / AJAX -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <!-- File site-ui.js hanya berisi javascript untuk proses pada UI  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ui.js');?>"></script> 

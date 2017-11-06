@@ -9,7 +9,6 @@ function initialize() {
         mapTypeControl: false,
         fullscreenControl: false,
         disableDoubleClickZoom: true,
-        scrollwheel: false,
         panControl: true,
         zoomControl: true,
         zoomControlOptions: {
@@ -19,6 +18,18 @@ function initialize() {
         mapTypeId:google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+    // Minta koordinat polyline dengan axios
+    axios.get('p/tampilkan_polyline', {
+    })
+    .then(function (response) {
+        console.log(response);
+        //Untuk setiap id jalan buatin poly = new google.maps.Polyline sama pathnya disini
+        //Untuk setiap Lat dan Lang dari koordinat push nilainya ke variabel path.
+      })
+    .catch(function (error) {
+        console.log(error);
+    });
 
     poly = new google.maps.Polyline({
         strokeColor: '#000000',
@@ -31,7 +42,10 @@ function initialize() {
 }
 function addLatLng(event){
     var path = poly.getPath();
+    //console.log("Path "+JSON.stringify(path));
     path.push(event.latLng);
+    //console.log("LatLng "+ event.latLng.lat());
+
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 //Conflict code Test
