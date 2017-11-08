@@ -1,6 +1,6 @@
 function initialize() {
-	mapCenter = new google.maps.LatLng(-8.5440021, 115.4042448);
-	mapProp = {
+    mapCenter = new google.maps.LatLng(-8.5440021, 115.4042448);
+    mapProp = {
         center: mapCenter,
         zoom:15,
         scrollwheel: true,
@@ -17,8 +17,7 @@ function initialize() {
         },
         mapTypeId:google.maps.MapTypeId.ROADMAP
     };
-    map = new google.maps.Map(document.getElementById("map"), mapProp);
-
+    var map = new google.maps.Map(document.getElementById("map"), mapProp);
     // Minta koordinat polyline dengan axios
     axios.get('p/tampilkan_polyline', {
     })
@@ -36,9 +35,9 @@ function initialize() {
         strokeOpacity: 1.0,
         strokeWeight: 3
     });
-    
     poly.setMap(map);
-    map.addListener('click', addLatLng);
+    addLatLngListener = map.addListener('click', addLatLng);
+    
 }
 function addLatLng(event){
     var path = poly.getPath();
@@ -49,3 +48,5 @@ function addLatLng(event){
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 //Conflict code Test
+
+

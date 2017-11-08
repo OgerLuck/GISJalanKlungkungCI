@@ -34,10 +34,11 @@ $this->load->helper('url');
                 <div class="form-container">
                     <label for="">Identitas Jalan</label>
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Nama Jalan">
+                        <input id="nama-jalan" class="form-control" type="text" placeholder="Nama Jalan">
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" type="number" placeholder="Panjang Jalan">
+                    <div class="form-group input-group">
+                        <input id="panjang-jalan" class="form-control" type="number" placeholder="Panjang Jalan">
+                        <span class="input-group-addon">Meter</span>
                     </div>
                     <hr>
                     <label for="">Riwayat Perbaikan</label>
@@ -49,11 +50,13 @@ $this->load->helper('url');
                     </div>
                     <hr>
                     <label for="">Koordinat Jalan</label>
-                    <a v-on:click="btn_add_form_koordinat_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
+                    <label class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="0==1" type="radio" name="input-lat-lng">Manual</label>
+                    <label class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="1==1" type="radio" name="input-lat-lng" :checked="true">Dari Peta</label>
+                    <a v-if="!input_koordinat_radio" v-on:click="btn_add_form_koordinat_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
                     <!-- Form koordinat jalan, dengan template component Vue -->
                     <div class="form-group">
-                        <form-koordinat-jalan></form-koordinat-jalan>
-                        <form-koordinat-jalan v-for="n in add_form_koordinat_jalan"></form-koordinat-jalan>
+                        <form-koordinat-jalan v-bind:disable-this="input_koordinat_radio"></form-koordinat-jalan>
+                        <form-koordinat-jalan v-bind:disable-this="input_koordinat_radio" v-for="n in add_form_koordinat_jalan"></form-koordinat-jalan>
                     </div>
                 </div>
                 <button v-on:click="save_road_info" class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
@@ -75,40 +78,46 @@ $this->load->helper('url');
     <!-- Axios untuk proses XMLHttpRequest / AJAX -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+    <!-- File google-map.js hanya berisi javascript untuk map dari Google  -->
+    <script type="text/javascript" src="<?php echo base_url('js/google-map.js');?>"></script>
     <!-- File site-ui.js hanya berisi javascript untuk proses pada UI  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ui.js');?>"></script> 
     <!-- File site-ajax.js hanya berisi javascript untuk proses yang menggunakan ajax  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ajax.js');?>"></script> 
-    <!-- File google-map.js hanya berisi javascript untuk map dari Google  -->
-    <script type="text/javascript" src="<?php echo base_url('js/google-map.js');?>"></script>
 
-    <!-- Template untuk form koordinat jalan -->
-    <script type="x-template" id="form-koordinat-jalan">
-        <div class="row form-row">
-            <div class="col-lg-6">
-                <input class="form-control" type="number" placeholder="Koordinat X">
-            </div>
-            <div class="col-lg-6">
-                <input class="form-control" type="number" placeholder="Koordinat Y">
-            </div>
-        </div>
+
+    <script type="x-template" id="google-map-view">
+        <div id="map"></div>
     </script>
 
     <!-- Template untuk form riwayat perbaikan jalan -->
     <script type="x-template" id="form-riwayat-perbaikan-jalan">
-        <div class="row form-row">
+        <div class="row form-row row-riwayat-perbaikan-jalan">
             <div class="col-lg-12">
                 <div class="form-group">
-                    <input class="form-control" type="number" placeholder="Tahun Perbaikan">
+                    <input name="tahun-perbaikan" class="form-control" type="number" placeholder="Tahun Perbaikan">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="number" placeholder="Nama Kontraktor">
+                    <input name="nama-kontraktor" class="form-control" type="text" placeholder="Nama Kontraktor">
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" type="text" placeholder="Catatan"></textarea>
+                    <textarea name="deskripsi-perbaikan" class="form-control" type="text" placeholder="Catatan"></textarea>
                 </div>
             </div>
         </div>
     </script>
+    <!-- Template untuk form koordinat jalan -->
+    <script type="x-template" id="form-koordinat-jalan">
+        <div class="row form-row row-lat-lng-jalan">
+            <div class="col-lg-6">
+                <input name="lat" class="form-control" type="number" placeholder="Latitude" v-bind:disabled="disableThis == true">
+            </div>
+            <div class="col-lg-6">
+                <input name="lng" class="form-control" type="number" placeholder="Longitude" v-bind:disabled="disableThis == true">
+            </div>
+        </div>
+    </script>
+
+
 </body>
 </html>
