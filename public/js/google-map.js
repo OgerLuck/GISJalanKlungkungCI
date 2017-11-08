@@ -1,10 +1,12 @@
-var addLatLngListener='';
+const EventBus = new Vue();
 Vue.component('google-map', {
     template: '#google-map-jalan',
     data: function() {
         return {
             map: null,
             poly: null,
+            latLng: [],
+            addListenerPoly: null,
             left_bar_open : ''
         }
     },
@@ -36,12 +38,25 @@ Vue.component('google-map', {
             strokeWeight: 3
         });
         this.poly.setMap(this.map);
-        this.map.addListener('click', this.addLatLng);
+        //this.map.addListener('click', this.addLatLng);
     },
     methods: {
         addLatLng: function(event){
             var path = this.poly.getPath();
             path.push(event.latLng);
+            this.latLng = [event.latLng.lat(), event.latLng.lng()];
+        }
+    },
+    watch: {
+        show_left_bar: function(value){
+            if (value){
+                this.addListenerPoly = this.map.addListener('click', this.addLatLng);
+            } else{
+                google.maps.event.removeListener(this.addListenerPoly);
+            }
+        },
+        latLng: function(value){
+            EventBus.$emit('latLng', this.latLng);
         }
     }
 });

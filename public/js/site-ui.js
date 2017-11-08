@@ -69,6 +69,12 @@ var app = new Vue({
             });
         }
     },
+    mounted: function (){
+        EventBus.$on('latLng', function (value) {
+        app.btn_add_form_koordinat_jalan();
+            //console.log(value[0]+" "+value[1]);
+        });
+    },
 });
 
 Vue.component("form-koordinat-jalan", {
