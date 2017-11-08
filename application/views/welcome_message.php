@@ -23,8 +23,9 @@ $this->load->helper('url');
         <!-- Lokasi HTML untuk map dari Google  -->
 		<!-- Javascript dari Google Maps bisa dilihat di /public/js/google-map.js -->
 	    <div id="main-content">
-            <div id="map">
-            </div>
+            <!-- <div id="map">
+            </div> -->
+            <google-map :show_left_bar="show_left_bar"></google-map>
         </div>
         <!-- Tab sebelah kiri untuk view, insert, update dan delete data informasi jalan -->
         <transition name="slide">
@@ -78,17 +79,17 @@ $this->load->helper('url');
     <!-- Axios untuk proses XMLHttpRequest / AJAX -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+    
+    <script type="x-template" id="google-map-jalan">
+        <div id="map"></div>
+    </script>
+
     <!-- File google-map.js hanya berisi javascript untuk map dari Google  -->
     <script type="text/javascript" src="<?php echo base_url('js/google-map.js');?>"></script>
     <!-- File site-ui.js hanya berisi javascript untuk proses pada UI  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ui.js');?>"></script> 
     <!-- File site-ajax.js hanya berisi javascript untuk proses yang menggunakan ajax  -->
     <script type="text/javascript" src="<?php echo base_url('js/site-ajax.js');?>"></script> 
-
-
-    <script type="x-template" id="google-map-view">
-        <div id="map"></div>
-    </script>
 
     <!-- Template untuk form riwayat perbaikan jalan -->
     <script type="x-template" id="form-riwayat-perbaikan-jalan">
