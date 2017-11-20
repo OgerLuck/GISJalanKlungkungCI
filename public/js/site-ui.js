@@ -7,7 +7,22 @@ var app = new Vue({
         add_form_koordinat_jalan: 0,
         input_koordinat_radio: true,
         input_koordinat_radio_stat: true,
-        add_form_riwayat_perbaikan_jalan: 0
+        add_form_riwayat_perbaikan_jalan: [],
+        lat: [],
+        lng: [],
+        inputLat:[],
+        budget_source_options:[],
+        
+        left_bar_content: 0, //0 untuk tambah informasi, 1 untuk view atau edit informasi
+        left_bar_title: "Tambah Informasi Jalan",
+        //v-model untuk form di left bar
+        form_informasi_jalan:{
+            nama_jalan: "",
+            panjang_jalan: ""
+        },
+        road_id: 0 //Menyimpan id dari jalan ketika polyline di klik
+
+
     },
     methods: {
         show_btn_add_label: function(event){
@@ -21,48 +36,117 @@ var app = new Vue({
         },
         btn_add_form_koordinat_jalan: function(){
             this.add_form_koordinat_jalan += 1;
+            
         },
         btn_add_form_riwayat_perbaikan_jalan: function(){
-            this.add_form_riwayat_perbaikan_jalan += 1;
+            //this.add_form_riwayat_perbaikan_jalan += 1;
+            this.add_form_riwayat_perbaikan_jalan.push(this.form_informasi_jalan);
         },
         save_road_info: function(){
             var nama_jalan = document.querySelector('#nama-jalan').value;
             var panjang_jalan = document.querySelector('#panjang-jalan').value;
 
             var jumlah_riwayat_perbaikan = document.querySelectorAll(".row-riwayat-perbaikan-jalan").length;
-            var tahun_perbaikan = document.querySelectorAll("input[name='tahun-perbaikan']");
-            var nama_kontraktor = document.querySelectorAll("input[name='nama-kontraktor']");
-            var deskripsi_perbaikan = document.querySelectorAll("textarea[name='deskripsi-perbaikan']");
+            var nama_pekerjaan = document.querySelectorAll("input[name='nama-pekerjaan']");
+            var kecamatan = document.querySelectorAll("input[name='kecamatan']");
+            var volume = document.querySelectorAll("input[name='volume']");
+            var satuan_volume = document.querySelectorAll("input[name='satuan-volume']");
+            var budget = document.querySelectorAll("input[name='budget']");
+            var sumber_budget = document.querySelectorAll("select[name='sumber-budget']");
+            var sistem_pelaksanaan = document.querySelectorAll("input[name='sistem-pelaksanaan']");
+            var mulai = document.querySelectorAll("input[name='mulai']");
+            var berakhir = document.querySelectorAll("input[name='berakhir']");
+            var pelaksana = document.querySelectorAll("input[name='pelaksana']");
+            var pengawas = document.querySelectorAll("input[name='pengawas']");
+            var perencana = document.querySelectorAll("input[name='perencana']");
+
             var riwayat_perbaikan_arr=[];
             for(var x=0; x<jumlah_riwayat_perbaikan; x++){
                 riwayat_perbaikan_arr.push({
-                    year: tahun_perbaikan[x].value, 
-                    contractor: nama_kontraktor[x].value,
-                    desc:  deskripsi_perbaikan[x].value
+                    job: nama_pekerjaan[x].value,
+                    district: kecamatan[x].value,
+                    volume: volume[x].value,
+                    volume_unit: satuan_volume[x].value,
+                    budget: budget[x].value,
+                    budget_source: sumber_budget[x].value,
+                    execution_sys: sistem_pelaksanaan[x].value,
+                    start: mulai[x].value,
+                    end: berakhir[x].value,
+                    executive: pelaksana[x].value,
+                    supervisor: pengawas[x].value,
+                    planner: perencana[x].value
                 });
             }
-
-            var jumlah_lat_lng = document.querySelectorAll(".row-lat-lng-jalan").length;
-            var lat = document.querySelectorAll("input[name='lat']");
-            var lng = document.querySelectorAll("input[name='lng']");
-            var lat_lng_arr=[];
-            for(var x=0; x<jumlah_lat_lng; x++){
-                lat_lng_arr.push({
-                    lat: lat[x].value, 
-                    lng: lng[x].value
+            if (this.left_bar_content==0){
+                var jumlah_lat_lng = document.querySelectorAll(".row-lat-lng-jalan").length;
+                var lat = document.querySelectorAll("input[name='lat']");
+                var lng = document.querySelectorAll("input[name='lng']");
+                var lat_lng_arr=[];
+                for(var x=0; x<jumlah_lat_lng; x++){
+                    lat_lng_arr.push({
+                        lat: lat[x].value, 
+                        lng: lng[x].value
+                    });
+                }
+                console.log(riwayat_perbaikan_arr);
+    
+                axios.post('p/tambah_informasi_jalan', {
+                    nama_jalan: nama_jalan,
+                    panjang_jalan: panjang_jalan,
+                    riwayat_perbaikan_arr: riwayat_perbaikan_arr,
+                    lat_lng_arr: lat_lng_arr
+                })
+                .then(function (response) {
+                    console.log(response);
+                    app.show_left_bar = false;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            } else if(this.left_bar_content==1){
+                var id_riwayat_jalan = document.querySelector('#id-riwayat-jalan').value;
+                axios.post('p/ubah_informasi_jalan', {
+                    id: app.road_id,
+                    history_id: id_riwayat_jalan,
+                    nama_jalan: nama_jalan,
+                    panjang_jalan: panjang_jalan,
+                    riwayat_perbaikan_arr: riwayat_perbaikan_arr
+                })
+                .then(function (response) {
+                    console.log(response);
+                    app.show_left_bar = false;
+                })
+                .catch(function (error) {
+                    console.log(error);
                 });
             }
-            console.log(riwayat_perbaikan_arr);
-
-            axios.post('p/tambah_informasi_jalan', {
-                nama_jalan: nama_jalan,
-                panjang_jalan: panjang_jalan,
-                riwayat_perbaikan_arr: riwayat_perbaikan_arr,
-                lat_lng_arr: lat_lng_arr
+            
+        },
+        show_coordinate: function (value){
+            console.log("OK");
+            app.btn_add_form_koordinat_jalan();
+            app.lat.push(value[0]);
+            app.lng.push(value[1]);
+        },
+        show_road_info: function (road_id){
+            console.log("Road ID "+ road_id);
+            this.road_id = road_id;
+            axios.post('p/informasi_jalan', {
+                id: road_id
             })
             .then(function (response) {
                 console.log(response);
-                app.show_left_bar = false;
+                app.left_bar_content = 1;
+                app.show_left_bar = true;
+                var data = response.data;
+                //Set nilai form dengan data
+                app.form_informasi_jalan.nama_jalan = data.name;
+                app.form_informasi_jalan.panjang_jalan = data.length;
+                if(data.history.length>0){
+                    app.add_form_riwayat_perbaikan_jalan = data.history;
+                } else{
+                    app.add_form_riwayat_perbaikan_jalan = [];
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -70,19 +154,51 @@ var app = new Vue({
         }
     },
     mounted: function (){
-        EventBus.$on('latLng', function (value) {
-        app.btn_add_form_koordinat_jalan();
-            //console.log(value[0]+" "+value[1]);
-        });
+        // Request data sumber budget
+            axios.post('p/sumber_budget')
+            .then(function (response) {
+                console.log(response);
+                app.budget_source_options = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        
+        
     },
+    watch: {
+        left_bar_content: function(value){
+            console.log(value);
+            if (value==0){
+                this.left_bar_title = "Tambah Informasi Jalan"
+                this.form_informasi_jalan.nama_jalan = "";
+                this.form_informasi_jalan.panjang_jalan = "";
+                this.add_form_riwayat_perbaikan_jalan = [];
+                this.add_form_riwayat_perbaikan_jalan.push(this.form_informasi_jalan);
+            } else if (value==1){
+                this.left_bar_title = "Informasi Jalan"
+            }
+        },
+        show_left_bar: function(value){
+            if(!value){
+                this.left_bar_content = 0;
+            }
+        }
+    }
 });
 
-Vue.component("form-koordinat-jalan", {
-    template: "#form-koordinat-jalan",
-    props: ['disable-this'],
-});
+// Vue.component("form-koordinat-jalan", {
+//     template: "#form-koordinat-jalan",
+//     props: ['disable-this', 'lat', 'lng', 'index'],
+//     data: function(){
+//         return{
+//             //inputLat: this.lat
+//         }
+        
+//     }
+// });
 
-Vue.component("form-riwayat-perbaikan-jalan", {
-    template: "#form-riwayat-perbaikan-jalan"
-});
+// Vue.component("form-riwayat-perbaikan-jalan", {
+//     template: "#form-riwayat-perbaikan-jalan"
+// });
 

@@ -25,20 +25,20 @@ $this->load->helper('url');
 	    <div id="main-content">
             <!-- <div id="map">
             </div> -->
-            <google-map :show_left_bar="show_left_bar"></google-map>
+            <google-map :show_left_bar="show_left_bar" v-on:coordinate="show_coordinate" v-on:road_info="show_road_info"></google-map>
         </div>
         <!-- Tab sebelah kiri untuk view, insert, update dan delete data informasi jalan -->
         <transition name="slide">
             <div v-if="show_left_bar" class="left-bar">
-                <h3 class="left-bar-title">Tambah Informasi Jalan</h3>
+                <h3 class="left-bar-title">{{ left_bar_title }}</h3>
                 <button v-on:click="show_left_bar = !show_left_bar" class="btn btn-default btn-bar" id="left-bar-btn-close"><i class="fa fa-times"></i></button>
                 <div class="form-container">
                     <label for="">Identitas Jalan</label>
                     <div class="form-group">
-                        <input id="nama-jalan" class="form-control" type="text" placeholder="Nama Jalan">
+                        <input id="nama-jalan" class="form-control" v-model="form_informasi_jalan.nama_jalan" type="text" placeholder="Nama Jalan">
                     </div>
                     <div class="form-group input-group">
-                        <input id="panjang-jalan" class="form-control" type="number" placeholder="Panjang Jalan">
+                        <input id="panjang-jalan" class="form-control" v-model="form_informasi_jalan.panjang_jalan" type="number" placeholder="Panjang Jalan">
                         <span class="input-group-addon">Meter</span>
                     </div>
                     <hr>
@@ -46,8 +46,66 @@ $this->load->helper('url');
                     <a v-on:click="btn_add_form_riwayat_perbaikan_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
                     <!-- Form riwayat perbaikan jalan, dengan template component Vue -->
                     <div class="form-group">
-                        <form-riwayat-perbaikan-jalan></form-riwayat-perbaikan-jalan>
-                        <form-riwayat-perbaikan-jalan v-for="n in add_form_riwayat_perbaikan_jalan"></form-riwayat-perbaikan-jalan>
+                        <div class="row form-row row-riwayat-perbaikan-jalan" v-for="(item, index) in add_form_riwayat_perbaikan_jalan">
+                        <p style="text-align: center; ">Riwayat ke-{{ index+1 }}</p>
+                        <!-- <form-riwayat-perbaikan-jalan></form-riwayat-perbaikan-jalan>
+                        <form-riwayat-perbaikan-jalan v-for="n in add_form_riwayat_perbaikan_jalan"></form-riwayat-perbaikan-jalan> -->
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input name="id-riwayat-jalan" type="hidden" v-bind:value="item.id">
+                                    <input name="nama-pekerjaan" class="form-control" type="text" placeholder="Nama Pekerjaan" v-bind:value="item.job">
+                                </div>
+                                <div class="form-group">
+                                    <input name="kecamatan" class="form-control" type="text" placeholder="Kecamatan" v-bind:value="item.district">
+                                </div>
+                                <div class="form-group">
+                                    <div class="row form-row">
+                                        <div class="col-lg-8">
+                                            <input name="volume" class="form-control" type="number" placeholder="Volume" v-bind:value="item.volume">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <input name="satuan-volume" class="form-control" type="text" placeholder="Satuan" v-bind:value="item.volume_unit">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="form-group"> 
+                                    <div class="row form-row">
+                                        <div class="col-lg-6">
+                                            <input name="budget" class="form-control" type="number" placeholder="Anggaran" v-bind:value="item.budget">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <select class="form-control" name="sumber-budget" id="sumber-budget">
+                                                <option value="0">Sumber Anggaran</option>
+                                                <option v-for="option in budget_source_options" v-bind:value="option.id" v-bind:selected="option.id == item.budget_source_id" >{{ option.source }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input name="sistem-pelaksanaan" class="form-control" type="text" placeholder="Sistem Pelaksanaan" v-bind:value="item.execution_sys">
+                                </div>
+                                <div class="form-group">
+                                    <input name="mulai" class="form-control" type="date" placeholder="Waktu Mulai" v-bind:value="item.start">
+                                </div>
+                                <div class="form-group">
+                                    <input name="berakhir" class="form-control" type="date" placeholder="Waktu Berakhir" v-bind:value="item.end">
+                                </div>
+                                <div class="form-group">
+                                    <input name="pelaksana" class="form-control" type="text" placeholder="Pelaksana" v-bind:value="item.executive">
+                                </div>
+                                <div class="form-group">
+                                    <input name="pengawas" class="form-control" type="text" placeholder="Pengawas" v-bind:value="item.supervisor">
+                                </div>
+                                <div class="form-group">
+                                    <input name="perencana" class="form-control" type="text" placeholder="Perencana" v-bind:value="item.planner">
+                                </div>
+                                <!-- <hr style="  border: 0; height: 3px;background: #333;background-image: linear-gradient(to right, #ccc, #333, #ccc);"> -->
+                            </div>
+                            
+                        </div>
+                        
                     </div>
                     <hr>
                     <label for="">Koordinat Jalan</label>
@@ -56,8 +114,16 @@ $this->load->helper('url');
                     <a v-if="!input_koordinat_radio" v-on:click="btn_add_form_koordinat_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
                     <!-- Form koordinat jalan, dengan template component Vue -->
                     <div class="form-group">
-                        <form-koordinat-jalan v-bind:disable-this="input_koordinat_radio"></form-koordinat-jalan>
-                        <form-koordinat-jalan v-bind:disable-this="input_koordinat_radio" v-for="n in add_form_koordinat_jalan"></form-koordinat-jalan>
+                        <!-- <form-koordinat-jalan v-if="input_koordinat_radio==false" v-bind:disable-this="input_koordinat_radio"></form-koordinat-jalan> -->
+                        <!-- <form-koordinat-jalan v-bind:lat="lat" v-bind:lng="lng" v-bind:disable-this="input_koordinat_radio" v-for="(n, index) in add_form_koordinat_jalan" v-bind:key="add_form_koordinat_jalan"></form-koordinat-jalan> -->
+                        <div class="row form-row row-lat-lng-jalan" v-for="(n, index) in add_form_koordinat_jalan" v-bind:key="add_form_koordinat_jalan">
+                            <div class="col-lg-6">
+                                <input name="lat" class="form-control" type="number" placeholder="Latitude" v-bind:value="lat[index]" v-bind:disabled="input_koordinat_radio == true">
+                            </div>
+                            <div class="col-lg-6">
+                                <input name="lng" class="form-control" type="number" placeholder="Longitude" v-bind:value="lng[index]" v-bind:disabled="input_koordinat_radio == true">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button v-on:click="save_road_info" class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
@@ -111,10 +177,10 @@ $this->load->helper('url');
     <script type="x-template" id="form-koordinat-jalan">
         <div class="row form-row row-lat-lng-jalan">
             <div class="col-lg-6">
-                <input name="lat" class="form-control" type="number" placeholder="Latitude" v-bind:disabled="disableThis == true">
+                <input name="lat" class="form-control" type="number" placeholder="Latitude" v-bind:value="lat" v-bind:disabled="disableThis == true">
             </div>
             <div class="col-lg-6">
-                <input name="lng" class="form-control" type="number" placeholder="Longitude" v-bind:disabled="disableThis == true">
+                <input name="lng" class="form-control" type="number" placeholder="Longitude" v-bind:value="lng" v-bind:disabled="disableThis == true">
             </div>
         </div>
     </script>

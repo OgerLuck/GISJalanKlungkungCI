@@ -57,6 +57,10 @@ $route['translate_uri_dashes'] = FALSE;
 $route['p/tambah_informasi_jalan'] = 'process/addRoad';
 $route['p/ubah_informasi_jalan'] = 'process/updateRoad';
 $route['p/hapus_informasi_jalan'] = 'process/deleteRoad';
+$route['p/informasi_jalan'] = 'process/getRoadInformation';
 
 // Routing untuk menampilkan data polyline pada map
 $route['p/tampilkan_polyline'] = 'process/viewPolyline';
+
+// Routing untuk request sumber budget
+$route['p/sumber_budget'] = 'process/getBudgetSource';
