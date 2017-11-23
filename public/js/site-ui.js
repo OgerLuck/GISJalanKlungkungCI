@@ -3,6 +3,7 @@ var app = new Vue({
     data: {
         show_left_bar: false,
         show_btn_add_label_stat: true,
+        show_btn_login_label_stat: true,
         btn_add_label: "",
         add_form_koordinat_jalan: 0,
         input_koordinat_radio: true,
@@ -46,6 +47,15 @@ var app = new Vue({
                 }
             }
         },
+        show_btn_login_label:function(event){
+            if (this.show_btn_login_label_stat){
+                this.show_btn_login_label_stat = !this.show_btn_login_label_stat
+                this.btn_login_label = "<i class='fa fa-sign-out'></i> Sign In"
+            } else{
+                this.show_btn_login_label_stat = !this.show_btn_login_label_stat
+                this.btn_login_label = "<i class='fa fa-sign-in'></i>"
+            }
+        },
         btn_add_form_koordinat_jalan: function(){
             this.add_form_koordinat_jalan += 1;
             
@@ -53,6 +63,21 @@ var app = new Vue({
         btn_add_form_riwayat_perbaikan_jalan: function(){
             //this.add_form_riwayat_perbaikan_jalan += 1;
             this.add_form_riwayat_perbaikan_jalan.push(this.form_informasi_jalan);
+        },
+        sign_in_process: function(){
+            var uname = document.querySelector("#username").value;
+            var pwd = document.querySelector("#password").value;
+            axios.post('p/proses_sign_in', {
+                username:uname,
+                password:pwd
+            })
+            .then(function (response) {
+                console.log(response);
+                app.show_modal_sign_in=false;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         },
         save_road_info: function(){
             var nama_jalan = document.querySelector('#nama-jalan').value;

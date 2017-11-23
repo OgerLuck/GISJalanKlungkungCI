@@ -76,7 +76,18 @@ html, body, .content, #main-content {
 	right: 10px;
 	z-index: 2;
 }
+.btn-group button {
+	margin: 5px;
+	right: 0;
+    cursor: pointer; /* Pointer/hand icon */
+    display: block; /* Make the buttons appear below each other */
+}
 
+#right-bar-btn-sign-in{
+	border-radius: 500px !important;
+	transition: width .5s;
+	
+}
 #right-bar-btn-add{
 	border-radius: 500px !important;
 	transition: width .5s;
@@ -104,6 +115,9 @@ html, body, .content, #main-content {
 	left: -20%;
 }
 
+#right-bar-btn-sign-in:hover {
+	width: 180px;
+}
 #right-bar-btn-add:hover {
 	width: 180px;
 }

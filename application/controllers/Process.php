@@ -260,4 +260,8 @@ class Process extends CI_Controller {
 		$data["user_type"] = $this->session->userdata('user_type');
 		echo json_encode($data);
 	}
+
+	public function destroySession(){
+		return true;
+	}
 }
