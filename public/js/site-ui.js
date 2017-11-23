@@ -3,7 +3,7 @@ var app = new Vue({
     data: {
         show_left_bar: false,
         show_btn_add_label_stat: true,
-        btn_add_label: "<i class='fa fa-plus'></i>",
+        btn_add_label: "",
         add_form_koordinat_jalan: 0,
         input_koordinat_radio: true,
         input_koordinat_radio_stat: true,
@@ -20,18 +20,29 @@ var app = new Vue({
             nama_jalan: "",
             panjang_jalan: ""
         },
-        road_id: 0 //Menyimpan id dari jalan ketika polyline di klik
-
-
+        road_id: 0, //Menyimpan id dari jalan ketika polyline di klik
+        session_user_id: 0,
+        session_user_type: 0,
+        show_modal_sign_in: false
     },
     methods: {
         show_btn_add_label: function(event){
-            if (this.show_btn_add_label_stat){
-                this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                this.btn_add_label = "<i class='fa fa-plus'></i> Tambah Ruas Jalan"
+            if (this.session_user_id == 0){
+                if (this.show_btn_add_label_stat){
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
+                    this.btn_add_label = "<i class='fa fa-sign-in'></i> Sign In"
+                } else{
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
+                    this.btn_add_label = "<i class='fa fa-sign-in'></i>"
+                }
             } else{
-                this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                this.btn_add_label = "<i class='fa fa-plus'></i>"
+                if (this.show_btn_add_label_stat){
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
+                    this.btn_add_label = "<i class='fa fa-plus'></i> Tambah Ruas Jalan"
+                } else{
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
+                    this.btn_add_label = "<i class='fa fa-plus'></i>"
+                }
             }
         },
         btn_add_form_koordinat_jalan: function(){
@@ -151,18 +162,44 @@ var app = new Vue({
             .catch(function (error) {
                 console.log(error);
             });
+        },
+        click_btn_right_bar: function (){
+            if (this.session_user_id == 0){
+                this.show_modal_sign_in = !this.show_modal_sign_in;
+            } else{
+                this.show_left_bar = !this.show_left_bar;
+            }
         }
     },
     mounted: function (){
         // Request data sumber budget
-            axios.post('p/sumber_budget')
-            .then(function (response) {
-                console.log(response);
-                app.budget_source_options = response.data;
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        axios.post('p/sumber_budget')
+        .then(function (response) {
+            console.log(response);
+            app.budget_source_options = response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+        //Check session
+        axios.post('p/check_session')
+        .then(function (response) {
+            console.log(response);
+            var data = response.data;
+            if (data["user_id"]==null){
+                app.session_user_id = 0;
+                app.session_user_type = 0;
+                app.btn_add_label = "<i class='fa fa-sign-in'></i>";
+            } else{
+                app.session_user_id = data["user_id"];
+                app.session_user_type = data["user_type"];
+                app.btn_add_label = "<i class='fa fa-plus'></i>";
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         
         
     },

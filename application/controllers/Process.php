@@ -234,4 +234,30 @@ class Process extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+
+	public function signIn(){
+		$_POST = json_decode(file_get_contents('php://input'), true);
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$data = array();
+		$signin_query = $this->db->query("SELECT id, email, `type` FROM tb_user 
+			WHERE username = ".$this->db->escape($username)." AND `password` = ".$this->db->escape($password).";");
+		if ($signin_query->num_rows()==1){
+			foreach ($signin_query->result() as $signin_row){
+				$data["id"] = $signin_row->id;
+				$data["email"] = $signin_row->email;
+				$data["type"] = $signin_row->type;
+			}
+			$this->session->set_userdata('user_id', $data["id"]);
+			$this->session->set_userdata('user_type', $data["type"]);
+		}
+		echo json_encode($data);
+	}
+
+	public function getSession(){
+		$data = array();
+		$data["user_id"] = $this->session->userdata('user_id');
+		$data["user_type"] = $this->session->userdata('user_type');
+		echo json_encode($data);
+	}
 }

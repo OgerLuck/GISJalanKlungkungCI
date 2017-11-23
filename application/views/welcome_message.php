@@ -132,7 +132,39 @@ $this->load->helper('url');
         
         <!-- Tab sebelah kanan untuk tombol tambah yang akan membuka tab kiri -->
         <div class="right-bar">
-            <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="show_left_bar = !show_left_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
+            <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="click_btn_right_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
+        </div>
+
+        <!-- Modal untuk login -->
+        <div v-if="show_modal_sign_in">
+            <transition name="modal">
+                <div class="modal-mask">
+                    <div class="modal-wrapper">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" v-on:click="show_modal_sign_in=false">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">Sign In</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input name="username" class="form-control" type="text" placeholder="Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="password" class="form-control" type="text" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" v-on:click="show_modal_sign_in=false">Cancel</button>
+                                    <button type="button" class="btn btn-primary">Sign In</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     </div>
 

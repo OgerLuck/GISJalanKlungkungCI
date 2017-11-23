@@ -64,3 +64,6 @@ $route['p/tampilkan_polyline'] = 'process/viewPolyline';
 
 // Routing untuk request sumber budget
 $route['p/sumber_budget'] = 'process/getBudgetSource';
+
+// Routing untuk check session
+$route['p/check_session'] = 'process/getSession';
