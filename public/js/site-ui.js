@@ -3,8 +3,9 @@ var app = new Vue({
     data: {
         show_left_bar: false,
         show_btn_add_label_stat: true,
-        show_btn_login_label_stat: true,
+        show_btn_logout_label_stat: true,
         btn_add_label: "",
+        btn_logout_label: "<i class='fa fa-sign-out'></i>",
         add_form_koordinat_jalan: 0,
         input_koordinat_radio: true,
         input_koordinat_radio_stat: true,
@@ -31,29 +32,29 @@ var app = new Vue({
         show_btn_add_label: function(event){
             if (this.session_user_id == 0){
                 if (this.show_btn_add_label_stat){
-                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                    this.btn_add_label = "<i class='fa fa-sign-in'></i> Sign In"
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat;
+                    this.btn_add_label = "<i class='fa fa-sign-in'></i> Sign In";
                 } else{
-                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                    this.btn_add_label = "<i class='fa fa-sign-in'></i>"
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat;
+                    this.btn_add_label = "<i class='fa fa-sign-in'></i>";
                 }
             } else{
                 if (this.show_btn_add_label_stat){
-                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                    this.btn_add_label = "<i class='fa fa-plus'></i> Tambah Ruas Jalan"
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat;
+                    this.btn_add_label = "<i class='fa fa-plus'></i> Tambah Ruas Jalan";
                 } else{
-                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat
-                    this.btn_add_label = "<i class='fa fa-plus'></i>"
+                    this.show_btn_add_label_stat = !this.show_btn_add_label_stat;
+                    this.btn_add_label = "<i class='fa fa-plus'></i>";
                 }
             }
         },
-        show_btn_login_label:function(event){
-            if (this.show_btn_login_label_stat){
-                this.show_btn_login_label_stat = !this.show_btn_login_label_stat
-                this.btn_login_label = "<i class='fa fa-sign-out'></i> Sign Out"
+        show_btn_logout_label:function(event){
+            if (this.show_btn_logout_label_stat){
+                this.show_btn_logout_label_stat = !this.show_btn_logout_label_stat;
+                this.btn_logout_label = "<i class='fa fa-sign-out'></i> Sign Out";
             } else{
-                this.show_btn_login_label_stat = !this.show_btn_login_label_stat
-                this.btn_login_label = "<i class='fa fa-sign-out'></i>"
+                this.show_btn_logout_label_stat = !this.show_btn_logout_label_stat;
+                this.btn_logout_label = "<i class='fa fa-sign-out'></i>";
             }
         },
         btn_add_form_koordinat_jalan: function(){
@@ -74,7 +75,13 @@ var app = new Vue({
             .then(function (response) {
                 console.log(response);
                 app.show_modal_sign_in=false;
-                location.reload();
+                var data = response.data;
+                if (data["type"]==1){
+                    app.admin_sign_in = true;
+                    app.session_user_type = data["type"];
+                }
+                app.session_user_id = data["id"];
+                //location.reload();
             })
             .catch(function (error) {
                 console.log(error);
@@ -198,7 +205,7 @@ var app = new Vue({
                 app.admin_sign_in= false;
                 app.session_user_id= 0;
                 app.session_user_type= 0;
-                location.reload();
+                //location.reload();
             })
             .catch(function (error) {
                 console.log(error);
@@ -237,6 +244,7 @@ var app = new Vue({
                 app.session_user_id = data["user_id"];
                 app.session_user_type = data["user_type"];
                 app.btn_add_label = "<i class='fa fa-plus'></i>";
+                app.btn_logout_label = "<i class='fa fa-sign-out'></i>";
                 if (data["user_type"]==1){
                     app.admin_sign_in= true;
                 }

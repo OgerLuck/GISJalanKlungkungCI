@@ -135,7 +135,7 @@ $this->load->helper('url');
             <div class="pull-right">
                 <div class="btn-group">
                     <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="click_btn_right_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
-                    <button v-on:mouseover="show_btn_login_label" v-on:mouseleave="show_btn_login_label" v-on:click="click_btn_sign_out" v-html="btn_login_label" class="btn btn-danger btn-bar" id="right-bar-btn-sign-in" v-bind:disabled="!admin_sign_in"></button>
+                    <button v-on:mouseover="show_btn_logout_label" v-on:mouseleave="show_btn_logout_label" v-on:click="click_btn_sign_out" v-html="btn_logout_label" class="btn btn-danger btn-bar" id="right-bar-btn-sign-in" v-if="admin_sign_in"></button>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@ $this->load->helper('url');
             <transition name="modal">
                 <div class="modal-mask">
                     <div class="modal-wrapper">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-sm">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" v-on:click="show_modal_sign_in=false">
@@ -158,7 +158,7 @@ $this->load->helper('url');
                                         <input id="username" name="username" class="form-control" type="text" placeholder="Username">
                                     </div>
                                     <div class="form-group">
-                                        <input id="password" name="password" class="form-control" type="text" placeholder="Password">
+                                        <input id="password" name="password" class="form-control" type="password" placeholder="Password">
                                     </div>
                                 </div>
                                 <div class="modal-footer">

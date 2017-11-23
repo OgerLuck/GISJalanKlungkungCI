@@ -262,8 +262,6 @@ class Process extends CI_Controller {
 	}
 
 	public function destroySession(){
-		session_start(); 
-		session_destroy();
-		unset($_SESSION);
+		$this->session->sess_destroy();
 	}
 }
