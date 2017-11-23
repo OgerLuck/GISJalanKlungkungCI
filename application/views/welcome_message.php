@@ -135,7 +135,7 @@ $this->load->helper('url');
             <div class="pull-right">
                 <div class="btn-group">
                     <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="click_btn_right_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
-                    <button v-on:mouseover="show_btn_login_label" v-on:mouseleave="show_btn_login_label" v-on:click="click_btn_right_bar" v-html="btn_add_label" class="btn btn-success btn-bar" id="right-bar-btn-sign-in"></button>
+                    <button v-on:mouseover="show_btn_login_label" v-on:mouseleave="show_btn_login_label" v-on:click="click_btn_sign_out" v-html="btn_login_label" class="btn btn-danger btn-bar" id="right-bar-btn-sign-in" v-bind:disabled="!admin_sign_in"></button>
                 </div>
             </div>
         </div>

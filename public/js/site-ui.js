@@ -50,10 +50,10 @@ var app = new Vue({
         show_btn_login_label:function(event){
             if (this.show_btn_login_label_stat){
                 this.show_btn_login_label_stat = !this.show_btn_login_label_stat
-                this.btn_login_label = "<i class='fa fa-sign-out'></i> Sign In"
+                this.btn_login_label = "<i class='fa fa-sign-out'></i> Sign Out"
             } else{
                 this.show_btn_login_label_stat = !this.show_btn_login_label_stat
-                this.btn_login_label = "<i class='fa fa-sign-in'></i>"
+                this.btn_login_label = "<i class='fa fa-sign-out'></i>"
             }
         },
         btn_add_form_koordinat_jalan: function(){
@@ -74,6 +74,7 @@ var app = new Vue({
             .then(function (response) {
                 console.log(response);
                 app.show_modal_sign_in=false;
+                location.reload();
             })
             .catch(function (error) {
                 console.log(error);
@@ -189,6 +190,21 @@ var app = new Vue({
                 console.log(error);
             });
         },
+
+        click_btn_sign_out: function(){
+            axios.post('p/destroy_session')
+            .then(function (response) {
+                console.log(response);
+                app.admin_sign_in= false;
+                app.session_user_id= 0;
+                app.session_user_type= 0;
+                location.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+
         click_btn_right_bar: function (){
             if (this.session_user_id == 0){
                 this.show_modal_sign_in = !this.show_modal_sign_in;
