@@ -21,6 +21,7 @@ var app = new Vue({
             panjang_jalan: ""
         },
         road_id: 0, //Menyimpan id dari jalan ketika polyline di klik
+        admin_sign_in: false,
         session_user_id: 0,
         session_user_type: 0,
         show_modal_sign_in: false
@@ -195,6 +196,9 @@ var app = new Vue({
                 app.session_user_id = data["user_id"];
                 app.session_user_type = data["user_type"];
                 app.btn_add_label = "<i class='fa fa-plus'></i>";
+                if (data["user_type"]==1){
+                    app.admin_sign_in= true;
+                }
             }
         })
         .catch(function (error) {

@@ -35,15 +35,15 @@ $this->load->helper('url');
                 <div class="form-container">
                     <label for="">Identitas Jalan</label>
                     <div class="form-group">
-                        <input id="nama-jalan" class="form-control" v-model="form_informasi_jalan.nama_jalan" type="text" placeholder="Nama Jalan">
+                        <input id="nama-jalan" class="form-control" v-model="form_informasi_jalan.nama_jalan" type="text" placeholder="Nama Jalan" v-bind:disabled="!admin_sign_in">
                     </div>
                     <div class="form-group input-group">
-                        <input id="panjang-jalan" class="form-control" v-model="form_informasi_jalan.panjang_jalan" type="number" placeholder="Panjang Jalan">
+                        <input id="panjang-jalan" class="form-control" v-model="form_informasi_jalan.panjang_jalan" type="number" placeholder="Panjang Jalan" v-bind:disabled="!admin_sign_in">
                         <span class="input-group-addon">Meter</span>
                     </div>
                     <hr>
                     <label for="">Riwayat Perbaikan</label>
-                    <a v-on:click="btn_add_form_riwayat_perbaikan_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
+                    <a v-if="admin_sign_in" v-on:click="btn_add_form_riwayat_perbaikan_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
                     <!-- Form riwayat perbaikan jalan, dengan template component Vue -->
                     <div class="form-group">
                         <div class="row form-row row-riwayat-perbaikan-jalan" v-for="(item, index) in add_form_riwayat_perbaikan_jalan">
@@ -53,18 +53,18 @@ $this->load->helper('url');
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <input name="id-riwayat-jalan" type="hidden" v-bind:value="item.id">
-                                    <input name="nama-pekerjaan" class="form-control" type="text" placeholder="Nama Pekerjaan" v-bind:value="item.job">
+                                    <input name="nama-pekerjaan" class="form-control" type="text" placeholder="Nama Pekerjaan" v-bind:value="item.job" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
-                                    <input name="kecamatan" class="form-control" type="text" placeholder="Kecamatan" v-bind:value="item.district">
+                                    <input name="kecamatan" class="form-control" type="text" placeholder="Kecamatan" v-bind:value="item.district" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
                                     <div class="row form-row">
                                         <div class="col-lg-8">
-                                            <input name="volume" class="form-control" type="number" placeholder="Volume" v-bind:value="item.volume">
+                                            <input name="volume" class="form-control" type="number" placeholder="Volume" v-bind:value="item.volume" v-bind:disabled="!admin_sign_in">
                                         </div>
                                         <div class="col-lg-4">
-                                            <input name="satuan-volume" class="form-control" type="text" placeholder="Satuan" v-bind:value="item.volume_unit">
+                                            <input name="satuan-volume" class="form-control" type="text" placeholder="Satuan" v-bind:value="item.volume_unit" v-bind:disabled="!admin_sign_in">
                                         </div>
                                     </div>
                                     
@@ -72,10 +72,10 @@ $this->load->helper('url');
                                 <div class="form-group"> 
                                     <div class="row form-row">
                                         <div class="col-lg-6">
-                                            <input name="budget" class="form-control" type="number" placeholder="Anggaran" v-bind:value="item.budget">
+                                            <input name="budget" class="form-control" type="number" placeholder="Anggaran" v-bind:value="item.budget" v-bind:disabled="!admin_sign_in">
                                         </div>
                                         <div class="col-lg-6">
-                                            <select class="form-control" name="sumber-budget" id="sumber-budget">
+                                            <select class="form-control" name="sumber-budget" id="sumber-budget" v-bind:disabled="!admin_sign_in">
                                                 <option value="0">Sumber Anggaran</option>
                                                 <option v-for="option in budget_source_options" v-bind:value="option.id" v-bind:selected="option.id == item.budget_source_id" >{{ option.source }}</option>
                                             </select>
@@ -84,22 +84,22 @@ $this->load->helper('url');
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input name="sistem-pelaksanaan" class="form-control" type="text" placeholder="Sistem Pelaksanaan" v-bind:value="item.execution_sys">
+                                    <input name="sistem-pelaksanaan" class="form-control" type="text" placeholder="Sistem Pelaksanaan" v-bind:value="item.execution_sys" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
-                                    <input name="mulai" class="form-control" type="date" placeholder="Waktu Mulai" v-bind:value="item.start">
+                                    <input name="mulai" class="form-control" type="date" placeholder="Waktu Mulai" v-bind:value="item.start" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
-                                    <input name="berakhir" class="form-control" type="date" placeholder="Waktu Berakhir" v-bind:value="item.end">
+                                    <input name="berakhir" class="form-control" type="date" placeholder="Waktu Berakhir" v-bind:value="item.end" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
-                                    <input name="pelaksana" class="form-control" type="text" placeholder="Pelaksana" v-bind:value="item.executive">
+                                    <input name="pelaksana" class="form-control" type="text" placeholder="Pelaksana" v-bind:value="item.executive" v-bind:disabled="!admin_sign_in"> 
                                 </div>
                                 <div class="form-group">
-                                    <input name="pengawas" class="form-control" type="text" placeholder="Pengawas" v-bind:value="item.supervisor">
+                                    <input name="pengawas" class="form-control" type="text" placeholder="Pengawas" v-bind:value="item.supervisor" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <div class="form-group">
-                                    <input name="perencana" class="form-control" type="text" placeholder="Perencana" v-bind:value="item.planner">
+                                    <input name="perencana" class="form-control" type="text" placeholder="Perencana" v-bind:value="item.planner" v-bind:disabled="!admin_sign_in">
                                 </div>
                                 <!-- <hr style="  border: 0; height: 3px;background: #333;background-image: linear-gradient(to right, #ccc, #333, #ccc);"> -->
                             </div>
@@ -109,8 +109,8 @@ $this->load->helper('url');
                     </div>
                     <hr>
                     <label for="">Koordinat Jalan</label>
-                    <label class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="0==1" type="radio" name="input-lat-lng">Manual</label>
-                    <label class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="1==1" type="radio" name="input-lat-lng" :checked="true">Dari Peta</label>
+                    <label v-if="admin_sign_in" class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="0==1" type="radio" name="input-lat-lng">Manual</label>
+                    <label v-if="admin_sign_in" class="radio-inline"><input v-model="input_koordinat_radio"  v-bind:value="1==1" type="radio" name="input-lat-lng" :checked="true">Dari Peta</label>
                     <a v-if="!input_koordinat_radio" v-on:click="btn_add_form_koordinat_jalan" class="pull-right"><i class="fa fa-plus"></i></a>
                     <!-- Form koordinat jalan, dengan template component Vue -->
                     <div class="form-group">
@@ -126,7 +126,7 @@ $this->load->helper('url');
                         </div>
                     </div>
                 </div>
-                <button v-on:click="save_road_info" class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
+                <button v-if="admin_sign_in" v-on:click="save_road_info" class="btn btn-primary" id="btn-save-road-info"><i class="fa fa-save"></i> Simpan</button>
             </div>
         </transition>
         
