@@ -146,6 +146,14 @@ $this->load->helper('url');
         
         <!-- Tab sebelah kanan untuk tombol tambah yang akan membuka tab kiri -->
         <div class="right-bar">
+            <div class="clear-fix">
+                <p><img src="./img/logo.jpg" alt="klungkung logo" style="width:50px;height:50px;float:left;margin-right:5px;">
+                    Sistem Informasi Pengelolaan Ruas Jalan Kabupaten Klungkung <br>
+                    Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman
+                </p>  
+            </div>
+        <!-- </div>
+        <div class="right-bar"> -->
             <div class="pull-right">
                 <div class="btn-group">
                     <button v-on:mouseover="show_btn_add_label" v-on:mouseleave="show_btn_add_label" v-on:click="click_btn_right_bar" v-html="btn_add_label" class="btn btn-primary btn-bar" id="right-bar-btn-add"></button>
@@ -153,6 +161,7 @@ $this->load->helper('url');
                 </div>
             </div>
         </div>
+    
 
         <!-- Modal untuk login -->
         <div v-if="show_modal_sign_in">
